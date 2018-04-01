@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RockPaperScissors", "RockPa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RockPaperScissors.Test", "RockPaperScissors.Test\RockPaperScissors.Test.csproj", "{15FBAAEA-AFB2-4C87-A43D-73DC2A48A8FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RockPaperScissors.UnitTest", "RockPaperScissors.UnitTest\RockPaperScissors.UnitTest.csproj", "{4E92060A-F7D7-4C59-9D24-C90931DD9544}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{15FBAAEA-AFB2-4C87-A43D-73DC2A48A8FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15FBAAEA-AFB2-4C87-A43D-73DC2A48A8FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15FBAAEA-AFB2-4C87-A43D-73DC2A48A8FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E92060A-F7D7-4C59-9D24-C90931DD9544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E92060A-F7D7-4C59-9D24-C90931DD9544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E92060A-F7D7-4C59-9D24-C90931DD9544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E92060A-F7D7-4C59-9D24-C90931DD9544}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
