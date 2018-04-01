@@ -13,7 +13,7 @@
 
         public void PlayRound(string player1, string player2)
         {
-            int result = new Round().Play(player1, player2);
+            var result = new Round().Play(player1, player2);
             if (result == 1) player1Score++;
             if (result == 2) player2Score++;
 
