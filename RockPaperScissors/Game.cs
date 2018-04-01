@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RockPaperScissors
+﻿namespace RockPaperScissors
 {
     public class Game
     {
