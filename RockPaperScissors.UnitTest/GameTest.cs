@@ -39,6 +39,14 @@ namespace RockPaperScissors.UnitTest
         }
 
         [Fact]
+        public void InvalidChoiceShouldNotBeCounted()
+        {
+            game.PlayRound("Foo", "Rock");
+            game.PlayRound("Rock", "Blah");
+            listener.Winner.Should().Be(0);
+        }
+
+        [Fact]
         public void OneRoundShouldNotResultAWinner()
         {
             game.PlayRound("Rock", "Paper");

@@ -41,13 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\RockPaperScissors\RockPaperScissors.csproj">
       <Project>{22a06f68-7db1-49b1-9690-c848e46ca670}</Project>
       <Name>RockPaperScissors</Name>

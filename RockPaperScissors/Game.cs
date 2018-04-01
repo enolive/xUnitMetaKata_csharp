@@ -1,4 +1,6 @@
-﻿namespace RockPaperScissors
+﻿using System;
+
+namespace RockPaperScissors
 {
     public class Game
     {
@@ -13,9 +15,15 @@
 
         public void PlayRound(string player1, string player2)
         {
-            var whichPlayer = (int) new Round().Play(player1, player2);
-            if (whichPlayer == 1) player1Score++;
-            if (whichPlayer == 2) player2Score++;
+            try
+            {
+                var whichPlayer = (int) new Round().Play(player1, player2);
+                if (whichPlayer == 1) player1Score++;
+                if (whichPlayer == 2) player2Score++;
+            }
+            catch (InvalidMoveException)
+            {
+            }
 
             if (player1Score == 2)
             {
