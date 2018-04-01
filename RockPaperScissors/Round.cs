@@ -1,43 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RockPaperScissors
 {
     public class Round
     {
+        private readonly IEnumerable<(string, string)> winning = new[]
+        {
+            ("Rock", "Scissors"),
+            ("Paper", "Rock"),
+            ("Scissors", "Paper")
+        };
+
         public PlayResult Play(string player1, string player2)
         {
-            if (player1 == "Rock")
+            if (winning.All(w => w.Item1 != player1))
             {
-                if (player2 == "Scissors")
-                    return PlayResult.Player1;
-                if (player2 == "Paper")
-                    return PlayResult.Player2;
-                if (player2 == "Rock")
-                    return PlayResult.Draw;
+                throw new InvalidMoveException();
             }
-            if (player1 == "Paper")
+            if (winning.All(w => w.Item1 != player2))
             {
-                if (player2 == "Rock")
-                    return PlayResult.Player1;
-                if (player2 == "Scissors")
-                    return PlayResult.Player2;
-                if (player2 == "Paper")
-                    return PlayResult.Draw;
+                throw new InvalidMoveException();
             }
-            if (player1 == "Scissors")
+            if (winning.Any(w => player1 == w.Item1 && player2 == w.Item2))
             {
-                if (player2 == "Paper")
-                    return PlayResult.Player1;
-                if (player2 == "Rock")
-                    return PlayResult.Player2;
-                if (player2 == "Scissors")
-                    return PlayResult.Draw;
+                return PlayResult.Player1;
             }
-            throw new InvalidMoveException();
+            if (winning.Any(w => player2 == w.Item1 && player1 == w.Item2))
+            {
+                return PlayResult.Player2;
+            }
+
+            return PlayResult.Draw;
         }
     }
 }
