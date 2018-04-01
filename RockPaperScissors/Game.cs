@@ -32,7 +32,7 @@ namespace RockPaperScissors
 
             if (whoWins != PlayResult.Draw)
             {
-                listener.GameOver((int) whoWins);
+                listener.GameOver(whoWins);
             }
         }
 

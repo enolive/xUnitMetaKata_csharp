@@ -2,6 +2,6 @@ namespace RockPaperScissors
 {
     public interface IGameListener
     {
-        void GameOver(int winner);
+        void GameOver(PlayResult winner);
     }
 }

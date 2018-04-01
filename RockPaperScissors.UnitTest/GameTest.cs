@@ -19,7 +19,7 @@ namespace RockPaperScissors.UnitTest
         {
             game.PlayRound(PlayChoice.Rock, PlayChoice.Scissors);
             game.PlayRound(PlayChoice.Rock, PlayChoice.Scissors);
-            listener.Winner.Should().Be(1);
+            listener.Winner.Should().Be(PlayResult.Player1);
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace RockPaperScissors.UnitTest
         {
             game.PlayRound(PlayChoice.Rock, PlayChoice.Paper);
             game.PlayRound(PlayChoice.Rock, PlayChoice.Paper);
-            listener.Winner.Should().Be(2);
+            listener.Winner.Should().Be(PlayResult.Player2);
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace RockPaperScissors.UnitTest
         {
             game.PlayRound(PlayChoice.Rock, PlayChoice.Rock);
             game.PlayRound(PlayChoice.Rock, PlayChoice.Rock);
-            listener.Winner.Should().Be(0);
+            listener.Winner.Should().BeNull();
         }
 
         [Fact]
@@ -43,24 +43,24 @@ namespace RockPaperScissors.UnitTest
         {
             game.PlayRound((PlayChoice)42, PlayChoice.Rock);
             game.PlayRound(PlayChoice.Rock, (PlayChoice)42);
-            listener.Winner.Should().Be(0);
+            listener.Winner.Should().BeNull();
         }
 
         [Fact]
         public void OneRoundShouldNotResultAWinner()
         {
             game.PlayRound(PlayChoice.Rock, PlayChoice.Paper);
-            listener.Winner.Should().Be(0);
+            listener.Winner.Should().BeNull();
         }
 
         private class SpyGameListener : IGameListener
         {
-            public void GameOver(int winner)
+            public void GameOver(PlayResult winner)
             {
                 Winner = winner;
             }
 
-            public int Winner { get; private set; }
+            public PlayResult? Winner { get; private set; }
         }
     }
 }
