@@ -1,10 +1,14 @@
-﻿namespace RockPaperScissors
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace RockPaperScissors
 {
     public class Game
     {
-        private int player1Score;
-        private int player2Score;
+        private const int RequiredRounds = 2;
+
         private readonly IGameListener listener;
+        private readonly List<PlayResult> score = new List<PlayResult>();
 
         public Game(IGameListener listener)
         {
@@ -15,23 +19,29 @@
         {
             try
             {
-                var whichPlayer = (int) new Round().Play(player1, player2);
-                if (whichPlayer == 1) player1Score++;
-                if (whichPlayer == 2) player2Score++;
+                score.Add(GetScore(player1, player2));
             }
             catch (InvalidMoveException)
             {
             }
 
-            if (player1Score == 2)
-            {
-                listener.GameOver(1);
-            }
+            var whoWins = LookupWins()
+                .Where(grouping => grouping.Count() == RequiredRounds)
+                .Select(grouping => grouping.Key)
+                .FirstOrDefault();
 
-            if (player2Score == 2)
+            if (whoWins != PlayResult.Draw)
             {
-                listener.GameOver(2);
+                listener.GameOver((int) whoWins);
             }
         }
+
+        private ILookup<PlayResult, PlayResult> LookupWins() =>
+            score
+                .Where(s => s != PlayResult.Draw)
+                .ToLookup(s => s);
+
+        private static PlayResult GetScore(string player1, string player2) =>
+            new Round().Play(player1, player2);
     }
 }
