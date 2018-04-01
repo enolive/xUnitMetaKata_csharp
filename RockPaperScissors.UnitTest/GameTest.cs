@@ -17,39 +17,39 @@ namespace RockPaperScissors.UnitTest
         [Fact]
         public void Player1ShouldWin()
         {
-            game.PlayRound("Rock", "Scissors");
-            game.PlayRound("Rock", "Scissors");
+            game.PlayRound(PlayChoice.Rock, PlayChoice.Scissors);
+            game.PlayRound(PlayChoice.Rock, PlayChoice.Scissors);
             listener.Winner.Should().Be(1);
         }
 
         [Fact]
         public void Player2ShouldWin()
         {
-            game.PlayRound("Rock", "Paper");
-            game.PlayRound("Rock", "Paper");
+            game.PlayRound(PlayChoice.Rock, PlayChoice.Paper);
+            game.PlayRound(PlayChoice.Rock, PlayChoice.Paper);
             listener.Winner.Should().Be(2);
         }
 
         [Fact]
         public void DrawersShouldNotBeCounted()
         {
-            game.PlayRound("Rock", "Rock");
-            game.PlayRound("Rock", "Rock");
+            game.PlayRound(PlayChoice.Rock, PlayChoice.Rock);
+            game.PlayRound(PlayChoice.Rock, PlayChoice.Rock);
             listener.Winner.Should().Be(0);
         }
 
         [Fact]
         public void InvalidChoiceShouldNotBeCounted()
         {
-            game.PlayRound("Foo", "Rock");
-            game.PlayRound("Rock", "Blah");
+            game.PlayRound((PlayChoice)42, PlayChoice.Rock);
+            game.PlayRound(PlayChoice.Rock, (PlayChoice)42);
             listener.Winner.Should().Be(0);
         }
 
         [Fact]
         public void OneRoundShouldNotResultAWinner()
         {
-            game.PlayRound("Rock", "Paper");
+            game.PlayRound(PlayChoice.Rock, PlayChoice.Paper);
             listener.Winner.Should().Be(0);
         }
 

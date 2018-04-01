@@ -15,7 +15,7 @@ namespace RockPaperScissors
             this.listener = listener;
         }
 
-        public void PlayRound(string player1, string player2)
+        public void PlayRound(PlayChoice player1, PlayChoice player2)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace RockPaperScissors
                 .Where(s => s != PlayResult.Draw)
                 .ToLookup(s => s);
 
-        private static PlayResult GetScore(string player1, string player2) =>
+        private static PlayResult GetScore(PlayChoice player1, PlayChoice player2) =>
             new Round().Play(player1, player2);
     }
 }

@@ -5,12 +5,12 @@ using System.Reflection;
 
 namespace RockPaperScissors
 {
-    [Winning("Rock", "Scissors")]
-    [Winning("Paper", "Rock")]
-    [Winning("Scissors", "Paper")]
+    [Winning(PlayChoice.Rock, PlayChoice.Scissors)]
+    [Winning(PlayChoice.Paper, PlayChoice.Rock)]
+    [Winning(PlayChoice.Scissors, PlayChoice.Paper)]
     public class Round
     {
-        private readonly IEnumerable<(string, string)> winning;
+        private readonly IEnumerable<(PlayChoice, PlayChoice)> winning;
         private readonly IEnumerable<Rule> rules;
 
         public Round()
@@ -28,40 +28,47 @@ namespace RockPaperScissors
             };
         }
 
-        public PlayResult Play(string player1, string player2) => rules
+        public PlayResult Play(PlayChoice player1, PlayChoice player2) => rules
             .Where(rule => rule.IsFullfilledFor(player1, player2))
             .Select(c => c.Result)
             .First();
 
-        private static bool Otherwise(string player1, string player2) => true;
+        private static bool Otherwise(PlayChoice player1, PlayChoice player2) => true;
 
-        private bool IsInvalid(string player1, string player2) => IsInvalid(player1) || IsInvalid(player2);
+        private bool IsInvalid(PlayChoice player1, PlayChoice player2) => IsInvalid(player1) || IsInvalid(player2);
 
-        private bool WinsPlayer2(string player1, string player2) => WinsPlayer1(player2, player1);
+        private bool WinsPlayer2(PlayChoice player1, PlayChoice player2) => WinsPlayer1(player2, player1);
 
-        private bool IsInvalid(string player) =>
+        private bool IsInvalid(PlayChoice player) =>
             winning.All(w => w.Item1 != player);
 
-        private bool WinsPlayer1(string player1, string player2) =>
+        private bool WinsPlayer1(PlayChoice player1, PlayChoice player2) =>
             winning.Any(w => w.Equals((player1, player2)));
 
         private class Rule
         {
             private readonly Func<PlayResult> result;
-            public Func<string, string, bool> IsFullfilledFor { get; }
+            public Func<PlayChoice, PlayChoice, bool> IsFullfilledFor { get; }
 
             public PlayResult Result => result();
 
-            public Rule(Func<string, string, bool> condition, Func<PlayResult> result)
+            public Rule(Func<PlayChoice, PlayChoice, bool> condition, Func<PlayResult> result)
             {
                 this.result = result;
                 IsFullfilledFor = condition;
             }
 
-            public Rule(Func<string, string, bool> condition, PlayResult result)
+            public Rule(Func<PlayChoice, PlayChoice, bool> condition, PlayResult result)
                 : this(condition, () => result)
             {
             }
         }
+    }
+
+    public enum PlayChoice
+    {
+        Rock,
+        Scissors,
+        Paper
     }
 }
