@@ -8,38 +8,36 @@ namespace RockPaperScissors
 {
     public class Round
     {
-
-        public int Play(string player1, string player2)
+        public PlayResult Play(string player1, string player2)
         {
             if (player1 == "Rock")
             {
                 if (player2 == "Scissors")
-                    return 1;
+                    return PlayResult.Player1;
                 if (player2 == "Paper")
-                    return 2;
+                    return PlayResult.Player2;
                 if (player2 == "Rock")
-                    return 0;
+                    return PlayResult.Draw;
             }
             if (player1 == "Paper")
             {
                 if (player2 == "Rock")
-                    return 1;
+                    return PlayResult.Player1;
                 if (player2 == "Scissors")
-                    return 2;
+                    return PlayResult.Player2;
                 if (player2 == "Paper")
-                    return 0;
+                    return PlayResult.Draw;
             }
             if (player1 == "Scissors")
             {
                 if (player2 == "Paper")
-                    return 1;
+                    return PlayResult.Player1;
                 if (player2 == "Rock")
-                    return 2;
+                    return PlayResult.Player2;
                 if (player2 == "Scissors")
-                    return 0;
+                    return PlayResult.Draw;
             }
-            throw new InvalidMoveException();;
+            throw new InvalidMoveException();
         }
-
     }
 }

@@ -20,7 +20,7 @@ namespace RockPaperScissors.Test
             Console.WriteLine("Round tests...");
 
             // rock blunts scissors
-            int result = new Round().Play("Rock", "Scissors");
+            int result = (int) new Round().Play("Rock", "Scissors");
             if (result == 1)
             {
                 testsPassed++;
@@ -32,7 +32,7 @@ namespace RockPaperScissors.Test
                 Console.WriteLine("rock blunts scissors (Rock, Scissors): FAIL - expected 1 but was {0}", result);
             }
 
-            result = new Round().Play("Scissors", "Rock");
+            result = (int) new Round().Play("Scissors", "Rock");
             if (result == 2)
             {
                 testsPassed++;
@@ -45,7 +45,7 @@ namespace RockPaperScissors.Test
             }
 
             // scissors cut paper
-            result = new Round().Play("Scissors", "Paper");
+            result = (int) new Round().Play("Scissors", "Paper");
             if (result == 1)
             {
                 testsPassed++;
@@ -57,7 +57,7 @@ namespace RockPaperScissors.Test
                 Console.WriteLine("scissors cut paper (Scissors, Paper): FAIL - expected 1 but was {0}", result);
             }
 
-            result = new Round().Play("Paper", "Scissors");
+            result = (int) new Round().Play("Paper", "Scissors");
             if (result == 2)
             {
                 testsPassed++;
@@ -70,7 +70,7 @@ namespace RockPaperScissors.Test
             }
 
             // paper wraps rock
-            result = new Round().Play("Paper", "Rock");
+            result = (int) new Round().Play("Paper", "Rock");
             if (result == 1)
             {
                 testsPassed++;
@@ -82,7 +82,7 @@ namespace RockPaperScissors.Test
                 Console.WriteLine("paper wraps rock (Paper, Rock): FAIL - expected 1 but was {0}", result);
             }
 
-            result = new Round().Play("Rock", "Paper");
+            result = (int) new Round().Play("Rock", "Paper");
             if (result == 2)
             {
                 testsPassed++;
@@ -95,7 +95,7 @@ namespace RockPaperScissors.Test
             }
 
             // round is a draw
-            result = new Round().Play("Rock", "Rock");
+            result = (int) new Round().Play("Rock", "Rock");
             if (result == 0)
             {
                 testsPassed++;
@@ -107,7 +107,7 @@ namespace RockPaperScissors.Test
                 Console.WriteLine("round is a draw (Rock, Rock): FAIL - expected 0 but was {0}", result);
             }
 
-            result = new Round().Play("Scissors", "Scissors");
+            result = (int) new Round().Play("Scissors", "Scissors");
             if (result == 0)
             {
                 testsPassed++;
@@ -119,7 +119,7 @@ namespace RockPaperScissors.Test
                 Console.WriteLine("round is a draw (Scissors, Scissors): FAIL - expected 0 but was {0}", result);
             }
 
-            result = new Round().Play("Paper", "Paper");
+            result = (int) new Round().Play("Paper", "Paper");
             if (result == 0)
             {
                 testsPassed++;
@@ -136,7 +136,7 @@ namespace RockPaperScissors.Test
 
             try
             {
-                new Round().Play("Blah", "Foo");
+                int temp = (int) new Round().Play("Blah", "Foo");
             }
             catch (Exception e)
             {
