@@ -1,16 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace RockPaperScissors
 {
+    [Winning("Rock", "Scissors")]
+    [Winning("Paper", "Rock")]
+    [Winning("Scissors", "Paper")]
     public class Round
     {
-        private readonly IEnumerable<(string, string)> winning = new[]
+        private readonly IEnumerable<(string, string)> winning;
+
+        public Round()
         {
-            ("Rock", "Scissors"),
-            ("Paper", "Rock"),
-            ("Scissors", "Paper")
-        };
+            winning = GetType()
+                .GetCustomAttributes<WinningAttribute>()
+                .Select(attribute => (attribute.Player1, attribute.Player2))
+                .ToArray();
+        }
 
         public PlayResult Play(string player1, string player2)
         {
