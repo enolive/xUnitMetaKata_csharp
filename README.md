@@ -26,3 +26,27 @@ Keep those test passing as you go, and have fun!
 
 Jason Gorman
 http://www.codemanship.com
+
+## Some notes about my solution
+
+I decided to use xUnit.NET and FluentAssertions for the tests.
+
+I noticed that the Game has no real code for ignoring invalid player
+choices. So I implemented it.
+
+I tried to eliminate all magic values
+* The player choices that were coded as strings
+* The result that is a numeric value which player has actually won
+
+I opted against parametrized tests with Theory instead of Fact
+as there are at best three expressions in each test.
+
+I also opted against a mock framework as the SpyGameListener is 
+easier to use.
+
+The winning rules are defined as attributes. This way I can
+easily extend the game to Lizard and Spock by defining additional
+rules. So my implementation honors the Open-Closed Principle.
+
+The overall semantics for a round of the game are defined as a list. The pattern matching
+in C# 7 is not good enough to act as a good replacement for this :-(.
