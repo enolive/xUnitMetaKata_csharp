@@ -50,3 +50,9 @@ rules. So my implementation honors the Open-Closed Principle.
 
 The overall semantics for a round of the game are defined as a list. The pattern matching
 in C# 7 is not good enough to act as a good replacement for this :-(.
+The expression syntax for exceptions is helpful for this, though.
+
+If there was already a game over,
+you can still play it without any changes to the game state.
+I am not sure if I should consider it a feature or bug, so
+I did not change this ;-).
