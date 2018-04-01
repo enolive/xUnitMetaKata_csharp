@@ -8,8 +8,8 @@ namespace RockPaperScissors.UnitTest
         [Fact]
         public void RockBluntsScissors()
         {
-            var result = new Round().Play("Rock", "Scissors");
-            result.Should().Be(1);
+            new Round().Play("Rock", "Scissors").Should().Be(1);
+            new Round().Play("Scissors", "Rock").Should().Be(2);
         }
     }
 }
