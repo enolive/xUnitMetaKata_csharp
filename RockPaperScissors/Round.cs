@@ -21,7 +21,7 @@ namespace RockPaperScissors
 
         public PlayResult Play(string player1, string player2)
         {
-            if (IsInvalid(player1, player2))
+            if (IsInvalid(player1) || IsInvalid(player2))
             {
                 throw new InvalidMoveException();
             }
@@ -38,9 +38,6 @@ namespace RockPaperScissors
 
             return PlayResult.Draw;
         }
-
-        private bool IsInvalid(string player1, string player2) =>
-            IsInvalid(player1) || IsInvalid(player2);
 
         private bool IsInvalid(string player) =>
             winning.All(w => w.Item1 != player);
