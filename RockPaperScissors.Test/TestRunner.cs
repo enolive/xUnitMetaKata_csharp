@@ -4,15 +4,15 @@ namespace RockPaperScissors.Test
 {
     public class TestRunner
     {
+        private readonly RunState runState = new RunState();
+
         public void Run()
         {
-            var runState = new RunState();
-
             // output header
             Console.WriteLine("Running RockPaperScissors tests...");
 
-            RunRoundTests(runState);
-            RunGameTests(runState);
+            RunRoundTests();
+            RunGameTests();
 
             Console.WriteLine("Tests run: {0}  Passed: {1}  Failed: {2}",
                 runState.Total,
@@ -20,7 +20,7 @@ namespace RockPaperScissors.Test
                 runState.TestsFailed);
         }
 
-        private static void RunGameTests(RunState runState)
+        private void RunGameTests()
         {
             // Game tests
             Console.WriteLine("Game tests...");
@@ -104,25 +104,14 @@ namespace RockPaperScissors.Test
             }
         }
 
-        private static void RunRoundTests(RunState runState)
+        private void RunRoundTests()
         {
             // Round tests
             Console.WriteLine("Round tests...");
 
-            // rock blunts scissors
-            var result = new Round().Play("Rock", "Scissors");
-            if (result == 1)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("rock blunts scissors (Rock, Scissors): PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("rock blunts scissors (Rock, Scissors): FAIL - expected 1 but was {0}", result);
-            }
+            RockBluntsScissors();
 
-            result = new Round().Play("Scissors", "Rock");
+            var result = new Round().Play("Scissors", "Rock");
             if (result == 2)
             {
                 runState.TestsPassed++;
@@ -242,6 +231,26 @@ namespace RockPaperScissors.Test
             {
                 runState.TestsFailed++;
                 Console.WriteLine("invalid inputs not allowed: FAIL - expected InvalidMoveException");
+            }
+        }
+
+        private void RockBluntsScissors()
+        {
+            var result = new Round().Play("Rock", "Scissors");
+            AssertEquals(result, 1, "rock blunts scissors (Rock, Scissors)");
+        }
+
+        private void AssertEquals(int result, int expected, string message)
+        {
+            if (result == expected)
+            {
+                runState.TestsPassed++;
+                Console.WriteLine($"{message}: PASS");
+            }
+            else
+            {
+                runState.TestsFailed++;
+                Console.WriteLine($"{message}: FAIL - expected {expected} but was {result}");
             }
         }
 
