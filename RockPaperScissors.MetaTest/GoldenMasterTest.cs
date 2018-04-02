@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using FluentAssertions;
 using RockPaperScissors.Test;
 using Xunit;
@@ -35,13 +34,11 @@ Tests run: 14  Passed: 14  Failed: 0
             using (var writer = new StringWriter())
             {
                 Console.SetOut(writer);
-                Program.Main(SomeArgs());
+                TestRunner.Main();
                 OutputFrom(writer).Should().Be(ExpectedOutput);
             }
         }
 
         private static string OutputFrom(StringWriter writer) => writer.GetStringBuilder().ToString();
-
-        private static string[] SomeArgs() => Enumerable.Empty<string>().ToArray();
     }
 }

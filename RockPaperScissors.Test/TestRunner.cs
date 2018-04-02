@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace RockPaperScissors.Test
 {
-    public class Program
+    public static class TestRunner
     {
-        public static void Main(string[] args)
+        private class RunState
         {
-            int testsPassed = 0;
-            int testsFailed = 0;
+            public int TestsPassed { get; set; }
+            public int TestsFailed { get; set; }
+        }
+
+        public static void Main()
+        {
+            var runState = new RunState();
 
             // output header
             Console.WriteLine("Running RockPaperScissors tests...");
@@ -23,24 +28,24 @@ namespace RockPaperScissors.Test
             int result = new Round().Play("Rock", "Scissors");
             if (result == 1)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("rock blunts scissors (Rock, Scissors): PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("rock blunts scissors (Rock, Scissors): FAIL - expected 1 but was {0}", result);
             }
 
             result = new Round().Play("Scissors", "Rock");
             if (result == 2)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("rock blunts scissors (Scissors, Rock): PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("rock blunts scissors (Scissors, Rock): FAIL - expected 2 but was {0}", result);
             }
 
@@ -48,24 +53,24 @@ namespace RockPaperScissors.Test
             result = new Round().Play("Scissors", "Paper");
             if (result == 1)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("scissors cut paper (Scissors, Paper): PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("scissors cut paper (Scissors, Paper): FAIL - expected 1 but was {0}", result);
             }
 
             result = new Round().Play("Paper", "Scissors");
             if (result == 2)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("scissors cut paper (Paper, Scissors): PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("scissors cut paper (Paper, Scissors): FAIL - expected 2 but was {0}", result);
             }
 
@@ -73,24 +78,24 @@ namespace RockPaperScissors.Test
             result = new Round().Play("Paper", "Rock");
             if (result == 1)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("paper wraps rock (Paper, Rock): PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("paper wraps rock (Paper, Rock): FAIL - expected 1 but was {0}", result);
             }
 
             result = new Round().Play("Rock", "Paper");
             if (result == 2)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("paper wraps rock (Rock, Paper): PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("paper wraps rock (Rock, Paper): FAIL - expected 2 but was {0}", result);
             }
 
@@ -98,36 +103,36 @@ namespace RockPaperScissors.Test
             result = new Round().Play("Rock", "Rock");
             if (result == 0)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("round is a draw (Rock, Rock): PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("round is a draw (Rock, Rock): FAIL - expected 0 but was {0}", result);
             }
 
             result = new Round().Play("Scissors", "Scissors");
             if (result == 0)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("round is a draw (Scissors, Scissors): PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("round is a draw (Scissors, Scissors): FAIL - expected 0 but was {0}", result);
             }
 
             result = new Round().Play("Paper", "Paper");
             if (result == 0)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("round is a draw (Paper, Paper): PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("round is a draw (Paper, Paper): FAIL - expected 0 but was {0}", result);
             }
 
@@ -145,12 +150,12 @@ namespace RockPaperScissors.Test
 
             if (exception is InvalidMoveException)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("invalid inputs not allowed: PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("invalid inputs not allowed: FAIL - expected InvalidMoveException");
             }
 
@@ -166,12 +171,12 @@ namespace RockPaperScissors.Test
             result = listener.Winner;
             if (result == 1)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("player 1 wins game: PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("player 1 wins game: FAIL - expected 1 but was {0}", result);
             }
 
@@ -184,12 +189,12 @@ namespace RockPaperScissors.Test
             result = listener.Winner;
             if (result == 2)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("player 2 wins game: PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("player 2 wins game: FAIL - expected 2 but was {0}", result);
             }
 
@@ -202,12 +207,12 @@ namespace RockPaperScissors.Test
             result = listener.Winner;
             if (result == 0)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("drawers not counted: PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("drawers not counted: FAIL - expected 0 but was {0}", result);
             }
 
@@ -227,17 +232,17 @@ namespace RockPaperScissors.Test
             result = listener.Winner;
             if (result == 0)
             {
-                testsPassed++;
+                runState.TestsPassed++;
                 Console.WriteLine("invalid moves not counted: PASS");
             }
             else
             {
-                testsFailed++;
+                runState.TestsFailed++;
                 Console.WriteLine("invalid moves not counted: FAIL - expected 0 but was {0}", result);
             }
 
 
-            Console.WriteLine("Tests run: {0}  Passed: {1}  Failed: {2}", testsPassed + testsFailed, testsPassed, testsFailed);
+            Console.WriteLine("Tests run: {0}  Passed: {1}  Failed: {2}", runState.TestsPassed + runState.TestsFailed, runState.TestsPassed, runState.TestsFailed);
         }
     }
 
