@@ -11,18 +11,18 @@ namespace RockPaperScissors.Test
             this.runState = runState;
         }
 
-        public Expecting<int, int> Expect(int result)
+        public ExpectEquality<int, int> Expect(int result)
         {
-            return new Expecting<int, int>(runState, result);
+            return new ExpectEquality<int, int>(runState, result);
         }
     }
 
-    internal class Expecting<TActual, TExpected>
+    internal class ExpectEquality<TActual, TExpected>
     {
         private readonly RunState runState;
         private readonly TActual actual;
 
-        public Expecting(RunState runState, TActual actual)
+        public ExpectEquality(RunState runState, TActual actual)
         {
             this.runState = runState;
             this.actual = actual;

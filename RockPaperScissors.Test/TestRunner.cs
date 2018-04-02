@@ -119,49 +119,17 @@ namespace RockPaperScissors.Test
             WinsAgainst("Scissors", "Paper", "scissors cut paper");
             WinsAgainst("Paper", "Rock", "paper wraps rock");
 
-            // round is a draw
-            var result = new Round().Play("Rock", "Rock");
-            if (result == 0)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("round is a draw (Rock, Rock): PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("round is a draw (Rock, Rock): FAIL - expected 0 but was {0}", result);
-            }
-
-            result = new Round().Play("Scissors", "Scissors");
-            if (result == 0)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("round is a draw (Scissors, Scissors): PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("round is a draw (Scissors, Scissors): FAIL - expected 0 but was {0}", result);
-            }
-
-            result = new Round().Play("Paper", "Paper");
-            if (result == 0)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("round is a draw (Paper, Paper): PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("round is a draw (Paper, Paper): FAIL - expected 0 but was {0}", result);
-            }
+            RoundIsDraw("Rock");
+            RoundIsDraw("Scissors");
+            RoundIsDraw("Paper");
 
             // invalid inputs not allowed
             Exception exception = null;
 
+            Action act = () => new Round().Play("Blah", "Foo");
             try
             {
-                new Round().Play("Blah", "Foo");
+                act();
             }
             catch (Exception e)
             {
@@ -178,6 +146,11 @@ namespace RockPaperScissors.Test
                 runState.TestsFailed++;
                 Console.WriteLine("invalid inputs not allowed: FAIL - expected InvalidMoveException");
             }
+        }
+
+        private void RoundIsDraw(string player)
+        {
+            expectations.Expect(new Round().Play(player, player)).ToBe(0, $"round is a draw ({player}, {player})");
         }
 
         private void WinsAgainst(string player1, string player2, string testCase)
