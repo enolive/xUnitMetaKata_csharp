@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RockPaperScissors.Test
 {
     public static class TestRunner
     {
-        private class RunState
-        {
-            public int TestsPassed { get; set; }
-            public int TestsFailed { get; set; }
-        }
-
         public static void Main()
         {
             var runState = new RunState();
@@ -21,11 +11,104 @@ namespace RockPaperScissors.Test
             // output header
             Console.WriteLine("Running RockPaperScissors tests...");
 
+            RunRoundTests(runState);
+            RunGameTests(runState);
+
+            Console.WriteLine("Tests run: {0}  Passed: {1}  Failed: {2}", runState.TestsPassed + runState.TestsFailed,
+                runState.TestsPassed, runState.TestsFailed);
+        }
+
+        private static void RunGameTests(RunState runState)
+        {
+            // Game tests
+            Console.WriteLine("Game tests...");
+
+            // player 1 wins game
+            var listener = new SpyGameListener();
+            var game = new Game(listener);
+            game.PlayRound("Rock", "Scissors");
+            game.PlayRound("Rock", "Scissors");
+
+            var result = listener.Winner;
+            if (result == 1)
+            {
+                runState.TestsPassed++;
+                Console.WriteLine("player 1 wins game: PASS");
+            }
+            else
+            {
+                runState.TestsFailed++;
+                Console.WriteLine("player 1 wins game: FAIL - expected 1 but was {0}", result);
+            }
+
+            // player 2 wins game
+            listener = new SpyGameListener();
+            game = new Game(listener);
+            game.PlayRound("Rock", "Paper");
+            game.PlayRound("Rock", "Paper");
+
+            result = listener.Winner;
+            if (result == 2)
+            {
+                runState.TestsPassed++;
+                Console.WriteLine("player 2 wins game: PASS");
+            }
+            else
+            {
+                runState.TestsFailed++;
+                Console.WriteLine("player 2 wins game: FAIL - expected 2 but was {0}", result);
+            }
+
+            // drawers not counted
+            listener = new SpyGameListener();
+            game = new Game(listener);
+            game.PlayRound("Rock", "Rock");
+            game.PlayRound("Rock", "Rock");
+
+            result = listener.Winner;
+            if (result == 0)
+            {
+                runState.TestsPassed++;
+                Console.WriteLine("drawers not counted: PASS");
+            }
+            else
+            {
+                runState.TestsFailed++;
+                Console.WriteLine("drawers not counted: FAIL - expected 0 but was {0}", result);
+            }
+
+            //invalid moves not counted
+            listener = new SpyGameListener();
+            game = new Game(listener);
+            try
+            {
+                game.PlayRound("Blah", "Foo");
+                game.PlayRound("Rock", "Scissors");
+            }
+            catch (Exception e)
+            {
+            }
+
+            result = listener.Winner;
+            if (result == 0)
+            {
+                runState.TestsPassed++;
+                Console.WriteLine("invalid moves not counted: PASS");
+            }
+            else
+            {
+                runState.TestsFailed++;
+                Console.WriteLine("invalid moves not counted: FAIL - expected 0 but was {0}", result);
+            }
+        }
+
+        private static void RunRoundTests(RunState runState)
+        {
             // Round tests
             Console.WriteLine("Round tests...");
 
             // rock blunts scissors
-            int result = new Round().Play("Rock", "Scissors");
+            var result = new Round().Play("Rock", "Scissors");
             if (result == 1)
             {
                 runState.TestsPassed++;
@@ -158,106 +241,22 @@ namespace RockPaperScissors.Test
                 runState.TestsFailed++;
                 Console.WriteLine("invalid inputs not allowed: FAIL - expected InvalidMoveException");
             }
+        }
 
-            // Game tests
-            Console.WriteLine("Game tests...");
-
-            // player 1 wins game
-            SpyGameListener listener = new SpyGameListener();
-            Game game = new Game(listener);
-            game.PlayRound("Rock", "Scissors");
-            game.PlayRound("Rock", "Scissors");
-
-            result = listener.Winner;
-            if (result == 1)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("player 1 wins game: PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("player 1 wins game: FAIL - expected 1 but was {0}", result);
-            }
-
-            // player 2 wins game
-            listener = new SpyGameListener();
-            game = new Game(listener);
-            game.PlayRound("Rock", "Paper");
-            game.PlayRound("Rock", "Paper");
-
-            result = listener.Winner;
-            if (result == 2)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("player 2 wins game: PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("player 2 wins game: FAIL - expected 2 but was {0}", result);
-            }
-
-            // drawers not counted
-            listener = new SpyGameListener();
-            game = new Game(listener);
-            game.PlayRound("Rock", "Rock");
-            game.PlayRound("Rock", "Rock");
-
-            result = listener.Winner;
-            if (result == 0)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("drawers not counted: PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("drawers not counted: FAIL - expected 0 but was {0}", result);
-            }
-
-            //invalid moves not counted
-            listener = new SpyGameListener();
-            game = new Game(listener);
-            try
-            {
-                game.PlayRound("Blah", "Foo");
-                game.PlayRound("Rock", "Scissors");
-            }
-            catch (Exception e)
-            {
-                
-            }
-
-            result = listener.Winner;
-            if (result == 0)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("invalid moves not counted: PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("invalid moves not counted: FAIL - expected 0 but was {0}", result);
-            }
-
-
-            Console.WriteLine("Tests run: {0}  Passed: {1}  Failed: {2}", runState.TestsPassed + runState.TestsFailed, runState.TestsPassed, runState.TestsFailed);
+        private class RunState
+        {
+            public int TestsPassed { get; set; }
+            public int TestsFailed { get; set; }
         }
     }
 
     internal class SpyGameListener : IGameListener
     {
-        private int _winner = 0;
-
-        public int Winner
-        {
-            get { return _winner; }
-        }
+        public int Winner { get; private set; }
 
         public void GameOver(int winner)
         {
-            _winner = winner;
+            Winner = winner;
         }
     }
 }
