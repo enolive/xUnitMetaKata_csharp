@@ -115,9 +115,9 @@ namespace RockPaperScissors.Test
             // Round tests
             Console.WriteLine("Round tests...");
 
-            RockBluntsScissors();
-            ScissorsCutPaper();
-            ScissorsWrapsRock();
+            WinsAgainst("Rock", "Scissors", "rock blunts scissors");
+            WinsAgainst("Scissors", "Paper", "scissors cut paper");
+            WinsAgainst("Paper", "Rock", "paper wraps rock");
 
             // round is a draw
             var result = new Round().Play("Rock", "Rock");
@@ -180,22 +180,10 @@ namespace RockPaperScissors.Test
             }
         }
 
-        private void ScissorsWrapsRock()
+        private void WinsAgainst(string player1, string player2, string testCase)
         {
-            expectations.Expect(new Round().Play("Paper", "Rock")).ToBe(1, "paper wraps rock (Paper, Rock)");
-            expectations.Expect(new Round().Play("Rock", "Paper")).ToBe(2, "paper wraps rock (Rock, Paper)");
-        }
-
-        private void ScissorsCutPaper()
-        {
-            expectations.Expect(new Round().Play("Scissors", "Paper")).ToBe(1, "scissors cut paper (Scissors, Paper)");
-            expectations.Expect(new Round().Play("Paper", "Scissors")).ToBe(2, "scissors cut paper (Paper, Scissors)");
-        }
-
-        private void RockBluntsScissors()
-        {
-            expectations.Expect(new Round().Play("Rock", "Scissors")).ToBe(1, "rock blunts scissors (Rock, Scissors)");
-            expectations.Expect(new Round().Play("Scissors", "Rock")).ToBe(2, "rock blunts scissors (Scissors, Rock)");
+            expectations.Expect(new Round().Play(player1, player2)).ToBe(1, $"{testCase} ({player1}, {player2})");
+            expectations.Expect(new Round().Play(player2, player1)).ToBe(2, $"{testCase} ({player2}, {player1})");
         }
     }
 
