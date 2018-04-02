@@ -37,6 +37,25 @@ namespace RockPaperScissors.Test
             RunTest(InvalidMovesNotCounted, "invalid moves not counted");
         }
 
+        private void RunRoundTests()
+        {
+            // Round tests
+            Console.WriteLine("Round tests...");
+
+            RunTest(Winning("Rock", "Scissors"), "rock blunts scissors (Rock, Scissors)");
+            RunTest(Losing("Rock", "Scissors"), "rock blunts scissors (Scissors, Rock)");
+            RunTest(Winning("Scissors", "Paper"), "scissors cut paper (Scissors, Paper)");
+            RunTest(Losing("Scissors", "Paper"), "scissors cut paper (Paper, Scissors)");
+            RunTest(Winning("Paper", "Rock"), "paper wraps rock (Paper, Rock)");
+            RunTest(Losing("Paper", "Rock"), "paper wraps rock (Rock, Paper)");
+
+            RunTest(RoundIsDraw("Rock"), "round is a draw (Rock, Rock)");
+            RunTest(RoundIsDraw("Scissors"), "round is a draw (Scissors, Scissors)");
+            RunTest(RoundIsDraw("Paper"), "round is a draw (Paper, Paper)");
+
+            RunTest(InvalidInputsNotAllowed, "invalid inputs not allowed");
+        }
+
         private void RunTest(Action testMethod, string testName)
         {
             try
@@ -96,25 +115,6 @@ namespace RockPaperScissors.Test
             game.PlayRound("Rock", "Scissors");
 
             expectations.Expect(listener.Winner).ToBe(1);
-        }
-
-        private void RunRoundTests()
-        {
-            // Round tests
-            Console.WriteLine("Round tests...");
-
-            RunTest(Winning("Rock", "Scissors"), "rock blunts scissors (Rock, Scissors)");
-            RunTest(Losing("Rock", "Scissors"), "rock blunts scissors (Scissors, Rock)");
-            RunTest(Winning("Scissors", "Paper"), "scissors cut paper (Scissors, Paper)");
-            RunTest(Losing("Scissors", "Paper"), "scissors cut paper (Paper, Scissors)");
-            RunTest(Winning("Paper", "Rock"), "paper wraps rock (Paper, Rock)");
-            RunTest(Losing("Paper", "Rock"), "paper wraps rock (Rock, Paper)");
-
-            RunTest(RoundIsDraw("Rock"), "round is a draw (Rock, Rock)");
-            RunTest(RoundIsDraw("Scissors"), "round is a draw (Scissors, Scissors)");
-            RunTest(RoundIsDraw("Paper"), "round is a draw (Paper, Paper)");
-
-            RunTest(InvalidInputsNotAllowed, "invalid inputs not allowed");
         }
 
         private void InvalidInputsNotAllowed()
