@@ -31,63 +31,13 @@ namespace RockPaperScissors.Test
             // Game tests
             Console.WriteLine("Game tests...");
 
-            // player 1 wins game
-            var listener = new SpyGameListener();
-            var game = new Game(listener);
-            game.PlayRound("Rock", "Scissors");
-            game.PlayRound("Rock", "Scissors");
-
-            var result = listener.Winner;
-            if (result == 1)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("player 1 wins game: PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("player 1 wins game: FAIL - expected 1 but was {0}", result);
-            }
-
-            // player 2 wins game
-            listener = new SpyGameListener();
-            game = new Game(listener);
-            game.PlayRound("Rock", "Paper");
-            game.PlayRound("Rock", "Paper");
-
-            result = listener.Winner;
-            if (result == 2)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("player 2 wins game: PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("player 2 wins game: FAIL - expected 2 but was {0}", result);
-            }
-
-            // drawers not counted
-            listener = new SpyGameListener();
-            game = new Game(listener);
-            game.PlayRound("Rock", "Rock");
-            game.PlayRound("Rock", "Rock");
-
-            result = listener.Winner;
-            if (result == 0)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("drawers not counted: PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("drawers not counted: FAIL - expected 0 but was {0}", result);
-            }
+            Player1WinsGame();
+            Player2WinsGame();
+            DrawersNotCounted();
 
             //invalid moves not counted
-            listener = new SpyGameListener();
-            game = new Game(listener);
+            var listener = new SpyGameListener();
+            var game = new Game(listener);
             try
             {
                 game.PlayRound("Blah", "Foo");
@@ -97,7 +47,7 @@ namespace RockPaperScissors.Test
             {
             }
 
-            result = listener.Winner;
+            var result = listener.Winner;
             if (result == 0)
             {
                 runState.TestsPassed++;
@@ -108,6 +58,36 @@ namespace RockPaperScissors.Test
                 runState.TestsFailed++;
                 Console.WriteLine("invalid moves not counted: FAIL - expected 0 but was {0}", result);
             }
+        }
+
+        private void DrawersNotCounted()
+        {
+            var listener = new SpyGameListener();
+            var game = new Game(listener);
+            game.PlayRound("Rock", "Rock");
+            game.PlayRound("Rock", "Rock");
+
+            expectations.Expect(listener.Winner).ToBe(0, "drawers not counted");
+        }
+
+        private void Player2WinsGame()
+        {
+            var listener = new SpyGameListener();
+            var game = new Game(listener);
+            game.PlayRound("Rock", "Paper");
+            game.PlayRound("Rock", "Paper");
+
+            expectations.Expect(listener.Winner).ToBe(2, "player 2 wins game");
+        }
+
+        private void Player1WinsGame()
+        {
+            var listener = new SpyGameListener();
+            var game = new Game(listener);
+            game.PlayRound("Rock", "Scissors");
+            game.PlayRound("Rock", "Scissors");
+
+            expectations.Expect(listener.Winner).ToBe(1, "player 1 wins game");
         }
 
         private void RunRoundTests()
