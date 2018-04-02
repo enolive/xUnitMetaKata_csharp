@@ -117,34 +117,10 @@ namespace RockPaperScissors.Test
 
             RockBluntsScissors();
             ScissorsCutPaper();
-
-            // paper wraps rock
-            var result = new Round().Play("Paper", "Rock");
-            if (result == 1)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("paper wraps rock (Paper, Rock): PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("paper wraps rock (Paper, Rock): FAIL - expected 1 but was {0}", result);
-            }
-
-            result = new Round().Play("Rock", "Paper");
-            if (result == 2)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("paper wraps rock (Rock, Paper): PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("paper wraps rock (Rock, Paper): FAIL - expected 2 but was {0}", result);
-            }
+            ScissorsWrapsRock();
 
             // round is a draw
-            result = new Round().Play("Rock", "Rock");
+            var result = new Round().Play("Rock", "Rock");
             if (result == 0)
             {
                 runState.TestsPassed++;
@@ -204,6 +180,12 @@ namespace RockPaperScissors.Test
             }
         }
 
+        private void ScissorsWrapsRock()
+        {
+            expectations.Expect(new Round().Play("Paper", "Rock")).ToBe(1, "paper wraps rock (Paper, Rock)");
+            expectations.Expect(new Round().Play("Rock", "Paper")).ToBe(2, "paper wraps rock (Rock, Paper)");
+        }
+
         private void ScissorsCutPaper()
         {
             expectations.Expect(new Round().Play("Scissors", "Paper")).ToBe(1, "scissors cut paper (Scissors, Paper)");
@@ -215,13 +197,6 @@ namespace RockPaperScissors.Test
             expectations.Expect(new Round().Play("Rock", "Scissors")).ToBe(1, "rock blunts scissors (Rock, Scissors)");
             expectations.Expect(new Round().Play("Scissors", "Rock")).ToBe(2, "rock blunts scissors (Scissors, Rock)");
         }
-    }
-
-    internal class RunState
-    {
-        public int TestsPassed { get; set; }
-        public int TestsFailed { get; set; }
-        public int Total => TestsPassed + TestsFailed;
     }
 
     internal class SpyGameListener : IGameListener

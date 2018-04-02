@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Expectations.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="RunState.cs" />
     <Compile Include="TestRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
