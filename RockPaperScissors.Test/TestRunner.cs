@@ -103,9 +103,12 @@ namespace RockPaperScissors.Test
             // Round tests
             Console.WriteLine("Round tests...");
 
-            WinsAgainst("Rock", "Scissors", "rock blunts scissors");
-            WinsAgainst("Scissors", "Paper", "scissors cut paper");
-            WinsAgainst("Paper", "Rock", "paper wraps rock");
+            RunTest(Winning("Rock", "Scissors"), "rock blunts scissors (Rock, Scissors)");
+            RunTest(Losing("Rock", "Scissors"), "rock blunts scissors (Scissors, Rock)");
+            RunTest(Winning("Scissors", "Paper"), "scissors cut paper (Scissors, Paper)");
+            RunTest(Losing("Scissors", "Paper"), "scissors cut paper (Paper, Scissors)");
+            RunTest(Winning("Paper", "Rock"), "paper wraps rock (Paper, Rock)");
+            RunTest(Losing("Paper", "Rock"), "paper wraps rock (Rock, Paper)");
 
             RunTest(RoundIsDraw("Rock"), "round is a draw (Rock, Rock)");
             RunTest(RoundIsDraw("Scissors"), "round is a draw (Scissors, Scissors)");
@@ -120,17 +123,18 @@ namespace RockPaperScissors.Test
                 .ToThrow<InvalidMoveException>();
         }
 
-        private Action RoundIsDraw(string player)
-        {
-            return () =>
+        private Action RoundIsDraw(string player) => () =>
             expectations.Expect(new Round().Play(player, player)).ToBe(0);
-        }
 
-        private void WinsAgainst(string player1, string player2, string testCase)
+        private Action Winning(string player1, string player2) => () =>
         {
-            expectations.Expect(new Round().Play(player1, player2)).ToBe(1, $"{testCase} ({player1}, {player2})");
-            expectations.Expect(new Round().Play(player2, player1)).ToBe(2, $"{testCase} ({player2}, {player1})");
-        }
+            expectations.Expect(new Round().Play(player1, player2)).ToBe(1);
+        };
+
+        private Action Losing(string player1, string player2) => () =>
+        {
+            expectations.Expect(new Round().Play(player2, player1)).ToBe(2);
+        };
     }
 
     internal class ExpectationFailedException : Exception
