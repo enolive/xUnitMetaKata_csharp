@@ -32,8 +32,8 @@ namespace RockPaperScissors.Test
             Console.WriteLine("Game tests...");
 
             RunTest(Player1WinsGame, "player 1 wins game");
-            Player2WinsGame();
-            DrawersNotCounted();
+            RunTest(Player2WinsGame, "player 2 wins game");
+            RunTest(DrawersNotCounted, "drawers not counted");
             InvalidMovesNotCounted();
         }
 
@@ -75,7 +75,7 @@ namespace RockPaperScissors.Test
             game.PlayRound("Rock", "Rock");
             game.PlayRound("Rock", "Rock");
 
-            expectations.Expect(listener.Winner).ToBe(0, "drawers not counted");
+            expectations.Expect(listener.Winner).ToBe(0);
         }
 
         private void Player2WinsGame()
@@ -85,7 +85,7 @@ namespace RockPaperScissors.Test
             game.PlayRound("Rock", "Paper");
             game.PlayRound("Rock", "Paper");
 
-            expectations.Expect(listener.Winner).ToBe(2, "player 2 wins game");
+            expectations.Expect(listener.Winner).ToBe(2);
         }
 
         private void Player1WinsGame()
