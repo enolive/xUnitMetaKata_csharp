@@ -82,5 +82,13 @@ namespace RockPaperScissors.Test
                 Console.WriteLine($"{message}: FAIL - expected {expected} but was {actual}");
             }
         }
+
+        public void ToBe(TExpected expected)
+        {
+            if (!Equals(actual, expected))
+            {
+                throw new ExpectationFailedException($"expected {expected} but was {actual}");
+            }
+        }
     }
 }

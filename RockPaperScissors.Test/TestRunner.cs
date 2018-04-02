@@ -31,10 +31,25 @@ namespace RockPaperScissors.Test
             // Game tests
             Console.WriteLine("Game tests...");
 
-            Player1WinsGame();
+            RunTest(Player1WinsGame, "player 1 wins game");
             Player2WinsGame();
             DrawersNotCounted();
             InvalidMovesNotCounted();
+        }
+
+        private void RunTest(Action testMethod, string testName)
+        {
+            try
+            {
+                testMethod();
+                runState.TestsPassed++;
+                Console.WriteLine($"{testName}: PASS");
+            }
+            catch (ExpectationFailedException e)
+            {
+                runState.TestsFailed++;
+                Console.WriteLine($"{testName}: FAIL - {e.Message}");
+            }
         }
 
         private void InvalidMovesNotCounted()
@@ -80,7 +95,7 @@ namespace RockPaperScissors.Test
             game.PlayRound("Rock", "Scissors");
             game.PlayRound("Rock", "Scissors");
 
-            expectations.Expect(listener.Winner).ToBe(1, "player 1 wins game");
+            expectations.Expect(listener.Winner).ToBe(1);
         }
 
         private void RunRoundTests()
@@ -114,6 +129,13 @@ namespace RockPaperScissors.Test
         {
             expectations.Expect(new Round().Play(player1, player2)).ToBe(1, $"{testCase} ({player1}, {player2})");
             expectations.Expect(new Round().Play(player2, player1)).ToBe(2, $"{testCase} ({player2}, {player1})");
+        }
+    }
+
+    internal class ExpectationFailedException : Exception
+    {
+        public ExpectationFailedException(string message) : base(message)
+        {
         }
     }
 
