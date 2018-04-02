@@ -111,20 +111,8 @@ namespace RockPaperScissors.Test
 
             RockBluntsScissors();
 
-            var result = new Round().Play("Scissors", "Rock");
-            if (result == 2)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("rock blunts scissors (Scissors, Rock): PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("rock blunts scissors (Scissors, Rock): FAIL - expected 2 but was {0}", result);
-            }
-
             // scissors cut paper
-            result = new Round().Play("Scissors", "Paper");
+            var result = new Round().Play("Scissors", "Paper");
             if (result == 1)
             {
                 runState.TestsPassed++;
@@ -238,6 +226,8 @@ namespace RockPaperScissors.Test
         {
             var result = new Round().Play("Rock", "Scissors");
             AssertEquals(result, 1, "rock blunts scissors (Rock, Scissors)");
+            result = new Round().Play("Scissors", "Rock");
+            AssertEquals(result, 2, "rock blunts scissors (Scissors, Rock)");
         }
 
         private void AssertEquals(int result, int expected, string message)
