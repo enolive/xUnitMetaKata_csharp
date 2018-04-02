@@ -34,7 +34,7 @@ namespace RockPaperScissors.Test
             RunTest(Player1WinsGame, "player 1 wins game");
             RunTest(Player2WinsGame, "player 2 wins game");
             RunTest(DrawersNotCounted, "drawers not counted");
-            InvalidMovesNotCounted();
+            RunTest(InvalidMovesNotCounted, "invalid moves not counted");
         }
 
         private void RunTest(Action testMethod, string testName)
@@ -65,7 +65,7 @@ namespace RockPaperScissors.Test
             {
             }
 
-            expectations.Expect(listener.Winner).ToBe(0, "invalid moves not counted");
+            expectations.Expect(listener.Winner).ToBe(0);
         }
 
         private void DrawersNotCounted()
@@ -111,13 +111,13 @@ namespace RockPaperScissors.Test
             RoundIsDraw("Scissors");
             RoundIsDraw("Paper");
 
-            InvalidInputsNotAllowed();
+            RunTest(InvalidInputsNotAllowed, "invalid inputs not allowed");
         }
 
         private void InvalidInputsNotAllowed()
         {
             expectations.Expect(() => new Round().Play("Blah", "Foo"))
-                .ToThrow<InvalidMoveException>("invalid inputs not allowed");
+                .ToThrow<InvalidMoveException>();
         }
 
         private void RoundIsDraw(string player)

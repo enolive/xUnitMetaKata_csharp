@@ -56,6 +56,24 @@ namespace RockPaperScissors.Test
                 Console.WriteLine($"{message}: FAIL - expected {typeof(TException).Name}");
             }
         }
+
+        public void ToThrow<TException>()
+        {
+            Exception exception = null;
+            try
+            {
+                action();
+            }
+            catch (Exception e)
+            {
+                exception = e;
+            }
+
+            if (!(exception is TException))
+            {
+                throw new ExpectationFailedException($"expected {typeof(TException).Name}");
+            }
+        }
     }
 
     internal class ExpectEquality<TActual, TExpected>
