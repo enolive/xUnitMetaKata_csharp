@@ -14,8 +14,10 @@ namespace RockPaperScissors.Test
             RunRoundTests(runState);
             RunGameTests(runState);
 
-            Console.WriteLine("Tests run: {0}  Passed: {1}  Failed: {2}", runState.TestsPassed + runState.TestsFailed,
-                runState.TestsPassed, runState.TestsFailed);
+            Console.WriteLine("Tests run: {0}  Passed: {1}  Failed: {2}",
+                runState.Total,
+                runState.TestsPassed,
+                runState.TestsFailed);
         }
 
         private static void RunGameTests(RunState runState)
@@ -85,7 +87,7 @@ namespace RockPaperScissors.Test
                 game.PlayRound("Blah", "Foo");
                 game.PlayRound("Rock", "Scissors");
             }
-            catch (Exception e)
+            catch (InvalidMoveException)
             {
             }
 
@@ -247,6 +249,7 @@ namespace RockPaperScissors.Test
         {
             public int TestsPassed { get; set; }
             public int TestsFailed { get; set; }
+            public int Total => TestsPassed + TestsFailed;
         }
     }
 
