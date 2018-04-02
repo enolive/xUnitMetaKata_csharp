@@ -34,8 +34,11 @@ namespace RockPaperScissors.Test
             Player1WinsGame();
             Player2WinsGame();
             DrawersNotCounted();
+            InvalidMovesNotCounted();
+        }
 
-            //invalid moves not counted
+        private void InvalidMovesNotCounted()
+        {
             var listener = new SpyGameListener();
             var game = new Game(listener);
             try
@@ -47,17 +50,7 @@ namespace RockPaperScissors.Test
             {
             }
 
-            var result = listener.Winner;
-            if (result == 0)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("invalid moves not counted: PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("invalid moves not counted: FAIL - expected 0 but was {0}", result);
-            }
+            expectations.Expect(listener.Winner).ToBe(0, "invalid moves not counted");
         }
 
         private void DrawersNotCounted()
