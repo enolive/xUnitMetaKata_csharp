@@ -123,29 +123,13 @@ namespace RockPaperScissors.Test
             RoundIsDraw("Scissors");
             RoundIsDraw("Paper");
 
-            // invalid inputs not allowed
-            Exception exception = null;
+            InvalidInputsNotAllowed();
+        }
 
-            Action act = () => new Round().Play("Blah", "Foo");
-            try
-            {
-                act();
-            }
-            catch (Exception e)
-            {
-                exception = e;
-            }
-
-            if (exception is InvalidMoveException)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("invalid inputs not allowed: PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("invalid inputs not allowed: FAIL - expected InvalidMoveException");
-            }
+        private void InvalidInputsNotAllowed()
+        {
+            expectations.Expect(() => new Round().Play("Blah", "Foo"))
+                .ToThrow<InvalidMoveException>("invalid inputs not allowed");
         }
 
         private void RoundIsDraw(string player)

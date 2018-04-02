@@ -15,6 +15,47 @@ namespace RockPaperScissors.Test
         {
             return new ExpectEquality<int, int>(runState, result);
         }
+
+        public ExpectException Expect(Action action)
+        {
+            return new ExpectException(runState, action);
+        }
+    }
+
+    internal class ExpectException
+    {
+        private readonly RunState runState;
+        private readonly Action action;
+
+        public ExpectException(RunState runState, Action action)
+        {
+            this.runState = runState;
+            this.action = action;
+        }
+
+        public void ToThrow<TException>(string message)
+        {
+            Exception exception = null;
+            try
+            {
+                action();
+            }
+            catch (Exception e)
+            {
+                exception = e;
+            }
+
+            if (exception is TException)
+            {
+                runState.TestsPassed++;
+                Console.WriteLine($"{message}: PASS");
+            }
+            else
+            {
+                runState.TestsFailed++;
+                Console.WriteLine($"{message}: FAIL - expected {typeof(TException).Name}");
+            }
+        }
     }
 
     internal class ExpectEquality<TActual, TExpected>
