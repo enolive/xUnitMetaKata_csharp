@@ -107,9 +107,9 @@ namespace RockPaperScissors.Test
             WinsAgainst("Scissors", "Paper", "scissors cut paper");
             WinsAgainst("Paper", "Rock", "paper wraps rock");
 
-            RoundIsDraw("Rock");
-            RoundIsDraw("Scissors");
-            RoundIsDraw("Paper");
+            RunTest(RoundIsDraw("Rock"), "round is a draw (Rock, Rock)");
+            RunTest(RoundIsDraw("Scissors"), "round is a draw (Scissors, Scissors)");
+            RunTest(RoundIsDraw("Paper"), "round is a draw (Paper, Paper)");
 
             RunTest(InvalidInputsNotAllowed, "invalid inputs not allowed");
         }
@@ -120,9 +120,10 @@ namespace RockPaperScissors.Test
                 .ToThrow<InvalidMoveException>();
         }
 
-        private void RoundIsDraw(string player)
+        private Action RoundIsDraw(string player)
         {
-            expectations.Expect(new Round().Play(player, player)).ToBe(0, $"round is a draw ({player}, {player})");
+            return () =>
+            expectations.Expect(new Round().Play(player, player)).ToBe(0);
         }
 
         private void WinsAgainst(string player1, string player2, string testCase)
