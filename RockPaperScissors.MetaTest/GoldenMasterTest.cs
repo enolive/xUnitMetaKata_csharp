@@ -34,7 +34,7 @@ Tests run: 14  Passed: 14  Failed: 0
             using (var writer = new StringWriter())
             {
                 Console.SetOut(writer);
-                TestRunner.Main();
+                new TestRunner().Run();
                 OutputFrom(writer).Should().Be(ExpectedOutput);
             }
         }

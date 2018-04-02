@@ -2,9 +2,9 @@
 
 namespace RockPaperScissors.Test
 {
-    public static class TestRunner
+    public class TestRunner
     {
-        public static void Main()
+        public void Run()
         {
             var runState = new RunState();
 
