@@ -5,6 +5,12 @@ namespace RockPaperScissors.Test
     public class TestRunner
     {
         private readonly RunState runState = new RunState();
+        private readonly Expectations expectations;
+
+        public TestRunner()
+        {
+            expectations = new Expectations(runState);
+        }
 
         public void Run()
         {
@@ -110,34 +116,10 @@ namespace RockPaperScissors.Test
             Console.WriteLine("Round tests...");
 
             RockBluntsScissors();
-
-            // scissors cut paper
-            var result = new Round().Play("Scissors", "Paper");
-            if (result == 1)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("scissors cut paper (Scissors, Paper): PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("scissors cut paper (Scissors, Paper): FAIL - expected 1 but was {0}", result);
-            }
-
-            result = new Round().Play("Paper", "Scissors");
-            if (result == 2)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine("scissors cut paper (Paper, Scissors): PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine("scissors cut paper (Paper, Scissors): FAIL - expected 2 but was {0}", result);
-            }
+            ScissorsCutPaper();
 
             // paper wraps rock
-            result = new Round().Play("Paper", "Rock");
+            var result = new Round().Play("Paper", "Rock");
             if (result == 1)
             {
                 runState.TestsPassed++;
@@ -222,34 +204,24 @@ namespace RockPaperScissors.Test
             }
         }
 
+        private void ScissorsCutPaper()
+        {
+            expectations.Expect(new Round().Play("Scissors", "Paper")).ToBe(1, "scissors cut paper (Scissors, Paper)");
+            expectations.Expect(new Round().Play("Paper", "Scissors")).ToBe(2, "scissors cut paper (Paper, Scissors)");
+        }
+
         private void RockBluntsScissors()
         {
-            var result = new Round().Play("Rock", "Scissors");
-            AssertEquals(result, 1, "rock blunts scissors (Rock, Scissors)");
-            result = new Round().Play("Scissors", "Rock");
-            AssertEquals(result, 2, "rock blunts scissors (Scissors, Rock)");
+            expectations.Expect(new Round().Play("Rock", "Scissors")).ToBe(1, "rock blunts scissors (Rock, Scissors)");
+            expectations.Expect(new Round().Play("Scissors", "Rock")).ToBe(2, "rock blunts scissors (Scissors, Rock)");
         }
+    }
 
-        private void AssertEquals(int result, int expected, string message)
-        {
-            if (result == expected)
-            {
-                runState.TestsPassed++;
-                Console.WriteLine($"{message}: PASS");
-            }
-            else
-            {
-                runState.TestsFailed++;
-                Console.WriteLine($"{message}: FAIL - expected {expected} but was {result}");
-            }
-        }
-
-        private class RunState
-        {
-            public int TestsPassed { get; set; }
-            public int TestsFailed { get; set; }
-            public int Total => TestsPassed + TestsFailed;
-        }
+    internal class RunState
+    {
+        public int TestsPassed { get; set; }
+        public int TestsFailed { get; set; }
+        public int Total => TestsPassed + TestsFailed;
     }
 
     internal class SpyGameListener : IGameListener
